@@ -1,18 +1,18 @@
 """
-Unit tests for the DailyHousekeeping tasks.
+Unit tests for the housekeeping tasks.
 """
 
 # Standard Library
 from unittest.mock import patch
 
 # TN-NT Auth Housekeeping
-from tnnt_housekeeping.tasks import DailyHousekeeping, daily_housekeeping, housekeeping
+from tnnt_housekeeping.tasks import DailyTasks, daily_housekeeping, housekeeping
 from tnnt_housekeeping.tests import BaseTestCase
 
 
 class TestDailyHousekeepingTasks(BaseTestCase):
     """
-    Test cases for the DailyHousekeeping tasks.
+    Test cases for the housekeeping tasks.
     """
 
     @patch("tnnt_housekeeping.tasks.EveCorporationInfo.objects.filter")
@@ -29,7 +29,7 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         mock_queryset = mock_filter.return_value
         mock_queryset.count.return_value = 3
 
-        DailyHousekeeping.corporation_cleanup()
+        DailyTasks.corporation_cleanup()
 
         mock_filter.assert_called_once_with(ceo_id=1)
         mock_queryset.delete.assert_called_once()
@@ -48,7 +48,7 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         mock_queryset = mock_filter.return_value
         mock_queryset.count.return_value = 0
 
-        DailyHousekeeping.corporation_cleanup()
+        DailyTasks.corporation_cleanup()
         mock_filter.assert_called_once_with(ceo_id=1)
 
     @patch("tnnt_housekeeping.tasks.EveCharacter.objects.filter")
@@ -65,7 +65,7 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         mock_queryset = mock_filter.return_value
         mock_queryset.count.return_value = 5
 
-        DailyHousekeeping.character_cleanup()
+        DailyTasks.character_cleanup()
 
         mock_filter.assert_called_once_with(corporation_id=1000001)
         mock_queryset.delete.assert_called_once()
@@ -84,13 +84,13 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         mock_queryset = mock_filter.return_value
         mock_queryset.count.return_value = 0
 
-        DailyHousekeeping.character_cleanup()
+        DailyTasks.character_cleanup()
 
         mock_filter.assert_called_once_with(corporation_id=1000001)
 
     @patch("tnnt_housekeeping.tasks.Cache.get")
-    @patch("tnnt_housekeeping.tasks.DailyHousekeeping.corporation_cleanup")
-    @patch("tnnt_housekeeping.tasks.DailyHousekeeping.character_cleanup")
+    @patch("tnnt_housekeeping.tasks.DailyTasks.corporation_cleanup")
+    @patch("tnnt_housekeeping.tasks.DailyTasks.character_cleanup")
     @patch("tnnt_housekeeping.tasks.Cache.set_daily")
     def test_runs_daily_tasks_when_cache_is_empty(
         self,
@@ -124,8 +124,8 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         mock_set_daily.assert_called_once()
 
     @patch("tnnt_housekeeping.tasks.Cache.get")
-    @patch("tnnt_housekeeping.tasks.DailyHousekeeping.corporation_cleanup")
-    @patch("tnnt_housekeeping.tasks.DailyHousekeeping.character_cleanup")
+    @patch("tnnt_housekeeping.tasks.DailyTasks.corporation_cleanup")
+    @patch("tnnt_housekeeping.tasks.DailyTasks.character_cleanup")
     @patch("tnnt_housekeeping.tasks.Cache.set_daily")
     def test_skips_daily_tasks_when_cache_is_set(
         self,
