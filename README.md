@@ -1,2 +1,1 @@
-# tn-nt-auth-housekeeping
-Housekeeping tasks for Terra Nanotech Auth
+# Housekeeping Tasks for Terra Nanotech Auth
