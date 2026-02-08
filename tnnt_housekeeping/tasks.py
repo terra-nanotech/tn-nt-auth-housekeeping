@@ -88,14 +88,14 @@ def daily_housekeeping():
         return
 
     # Trigger all daily hooks for TN-NT Housekeeping
-    DailyHousekeeping.corporation_cleanup()
-    DailyHousekeeping.character_cleanup()
+    DailyTasks.corporation_cleanup()
+    DailyTasks.character_cleanup()
 
     # Update the cache to indicate that daily housekeeping tasks have been run
     Cache(subkey=cache_subkey).set_daily(value=timezone.now())
 
 
-class DailyHousekeeping:
+class DailyTasks:
     """
     Class to handle daily housekeeping tasks.
     """
