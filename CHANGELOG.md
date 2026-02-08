@@ -42,8 +42,18 @@ Section Order:
 
 <!-- Your changes go here -->
 
+## [0.0.1] - 2026-02-08
+
+**Initial Release**
+
+### Added
+
+- Cleanup of closed corporations
+- Cleanup deleted characters
+
 <!-- Links to be updated upon release -->
 
-[in development]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v3.15.0...HEAD "In Development"
+[0.0.1]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/commits/v0.0.1 "v0.0.1"
+[in development]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.1...HEAD "In Development"
 [keep a changelog]: http://keepachangelog.com/ "Keep a Changelog"
 [semantic versioning]: http://semver.org/ "Semantic Versioning"
