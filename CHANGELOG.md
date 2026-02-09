@@ -42,6 +42,10 @@ Section Order:
 
 <!-- Your changes go here -->
 
+### Added
+
+- Error handling for the task queue, so that the cache is still set, even if the task fails.
+
 ## [0.0.1] - 2026-02-08
 
 **Initial Release**

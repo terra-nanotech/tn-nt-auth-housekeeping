@@ -25,7 +25,7 @@ CACHE_KEY_DAILY_HOUSEKEEPING = "daily-housekeeping-last-run"
 
 
 @shared_task(base=QueueOnce, once={"graceful": True, "timeout": 300})
-def housekeeping():
+def housekeeping() -> None:
     """
     Main housekeeping task that runs every minute and performs both hourly and daily housekeeping tasks.
 
@@ -67,7 +67,7 @@ def housekeeping():
 
 
 @shared_task(base=QueueOnce, once={"graceful": True, "timeout": 300})
-def daily_housekeeping():
+def daily_housekeeping() -> None:
     """
     This function performs daily housekeeping tasks.
 
@@ -88,8 +88,8 @@ def daily_housekeeping():
         return
 
     # Trigger all daily hooks for TN-NT Housekeeping
-    DailyTasks.corporation_cleanup()
-    DailyTasks.character_cleanup()
+    DailyTasks.corporation_cleanup()  # Perform daily corporation cleanup tasks
+    DailyTasks.character_cleanup()  # Perform daily character cleanup tasks
 
     # Update the cache to indicate that daily housekeeping tasks have been run
     Cache(subkey=cache_subkey).set_daily(value=timezone.now())
@@ -101,7 +101,7 @@ class DailyTasks:
     """
 
     @staticmethod
-    def corporation_cleanup():
+    def corporation_cleanup() -> None:
         """
         Perform daily corporation cleanup tasks.
 
@@ -117,10 +117,13 @@ class DailyTasks:
 
         logger.info(f"Found {count} closed corporations to delete.")
 
-        closed_corps.delete()
+        try:
+            closed_corps.delete()
+        except Exception as e:  # pylint: disable=broad-except
+            logger.error(f"Error deleting closed corporations: {e}")
 
     @staticmethod
-    def character_cleanup():
+    def character_cleanup() -> None:
         """
         Perform daily character cleanup tasks.
 
@@ -136,4 +139,7 @@ class DailyTasks:
 
         logger.info(f"Found {count} characters to delete.")
 
-        delete_characters.delete()
+        try:
+            delete_characters.delete()
+        except Exception as e:  # pylint: disable=broad-except
+            logger.error(f"Error deleting characters in Doomheim: {e}")

@@ -14,7 +14,7 @@ class AppLogger(logging.LoggerAdapter):
     Credits to: Erik Kalkoken
     """
 
-    def __init__(self, my_logger, prefix):
+    def __init__(self, my_logger, prefix) -> None:
         """
         Initializes the AppLogger with a logger and a prefix.
 
@@ -28,7 +28,7 @@ class AppLogger(logging.LoggerAdapter):
 
         self.prefix = prefix
 
-    def process(self, msg, kwargs):
+    def process(self, msg, kwargs) -> tuple:
         """
         Prepares the log message by adding the prefix.
 

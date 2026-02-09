@@ -3,7 +3,7 @@ Unit tests for the housekeeping tasks.
 """
 
 # Standard Library
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 # TN-NT Auth Housekeeping
 from tnnt_housekeeping.tasks import DailyTasks, daily_housekeeping, housekeeping
@@ -15,24 +15,60 @@ class TestDailyHousekeepingTasks(BaseTestCase):
     Test cases for the housekeeping tasks.
     """
 
-    @patch("tnnt_housekeeping.tasks.EveCorporationInfo.objects.filter")
-    def test_corporation_cleanup_deletes_closed_corporations(self, mock_filter):
-        """
-        Test that the corporation_cleanup method deletes closed corporations with CEO ID 1.
+    ##
+    # CORPORATION CLEANUP TESTS
+    ##
 
-        :param mock_filter:
-        :type mock_filter:
+    def test_corporation_cleanup_logs_and_deletes_closed_corporations(self):
+        """
+        Test that the corporation_cleanup method logs the number of closed corporations found and deletes them.
+
         :return:
         :rtype:
         """
 
-        mock_queryset = mock_filter.return_value
-        mock_queryset.count.return_value = 3
+        with (
+            patch(
+                "tnnt_housekeeping.tasks.EveCorporationInfo.objects.filter"
+            ) as mock_filter,
+            patch("tnnt_housekeeping.tasks.logger") as mock_logger,
+        ):
+            mock_queryset = MagicMock()
+            mock_queryset.count.return_value = 3
+            mock_filter.return_value = mock_queryset
 
-        DailyTasks.corporation_cleanup()
+            DailyTasks.corporation_cleanup()
 
-        mock_filter.assert_called_once_with(ceo_id=1)
-        mock_queryset.delete.assert_called_once()
+            mock_logger.info.assert_any_call(
+                "Starting daily corporation cleanup tasks."
+            )
+            mock_logger.info.assert_any_call("Found 3 closed corporations to delete.")
+            mock_queryset.delete.assert_called_once()
+
+    def test_corporation_cleanup_handles_deletion_error(self):
+        """
+        Test that the corporation_cleanup method logs an error if there is an exception during deletion.
+
+        :return:
+        :rtype:
+        """
+
+        with (
+            patch(
+                "tnnt_housekeeping.tasks.EveCorporationInfo.objects.filter"
+            ) as mock_filter,
+            patch("tnnt_housekeeping.tasks.logger") as mock_logger,
+        ):
+            mock_queryset = MagicMock()
+            mock_queryset.count.return_value = 2
+            mock_queryset.delete.side_effect = Exception("Deletion error")
+            mock_filter.return_value = mock_queryset
+
+            DailyTasks.corporation_cleanup()
+
+            mock_logger.error.assert_called_once_with(
+                "Error deleting closed corporations: Deletion error"
+            )
 
     @patch("tnnt_housekeeping.tasks.EveCorporationInfo.objects.filter")
     def test_corporation_cleanup_no_closed_corporations_to_delete(self, mock_filter):
@@ -51,24 +87,54 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         DailyTasks.corporation_cleanup()
         mock_filter.assert_called_once_with(ceo_id=1)
 
-    @patch("tnnt_housekeeping.tasks.EveCharacter.objects.filter")
-    def test_character_cleanup_deletes_characters_in_doomheim(self, mock_filter):
-        """
-        Test that the character_cleanup method deletes characters in corporation ID 1000001 (Doomheim).
+    ##
+    # CHARACTER CLEANUP TESTS
+    ##
 
-        :param mock_filter:
-        :type mock_filter:
+    def test_character_cleanup_logs_and_deletes_doomheim_characters(self):
+        """
+        Test that the character_cleanup method logs the number of characters found in Doomheim and deletes them.
+
         :return:
         :rtype:
         """
 
-        mock_queryset = mock_filter.return_value
-        mock_queryset.count.return_value = 5
+        with (
+            patch("tnnt_housekeeping.tasks.EveCharacter.objects.filter") as mock_filter,
+            patch("tnnt_housekeeping.tasks.logger") as mock_logger,
+        ):
+            mock_queryset = MagicMock()
+            mock_queryset.count.return_value = 5
+            mock_filter.return_value = mock_queryset
 
-        DailyTasks.character_cleanup()
+            DailyTasks.character_cleanup()
 
-        mock_filter.assert_called_once_with(corporation_id=1000001)
-        mock_queryset.delete.assert_called_once()
+            mock_logger.info.assert_any_call("Starting daily character cleanup tasks.")
+            mock_logger.info.assert_any_call("Found 5 characters to delete.")
+            mock_queryset.delete.assert_called_once()
+
+    def test_character_cleanup_handles_deletion_error(self):
+        """
+        Test that the character_cleanup method logs an error if there is an exception during deletion of characters in Doomheim.
+
+        :return:
+        :rtype:
+        """
+
+        with (
+            patch("tnnt_housekeeping.tasks.EveCharacter.objects.filter") as mock_filter,
+            patch("tnnt_housekeeping.tasks.logger") as mock_logger,
+        ):
+            mock_queryset = MagicMock()
+            mock_queryset.count.return_value = 3
+            mock_queryset.delete.side_effect = Exception("Deletion error")
+            mock_filter.return_value = mock_queryset
+
+            DailyTasks.character_cleanup()
+
+            mock_logger.error.assert_called_once_with(
+                "Error deleting characters in Doomheim: Deletion error"
+            )
 
     @patch("tnnt_housekeeping.tasks.EveCharacter.objects.filter")
     def test_character_cleanup_no_characters_to_delete(self, mock_filter):
@@ -87,6 +153,10 @@ class TestDailyHousekeepingTasks(BaseTestCase):
         DailyTasks.character_cleanup()
 
         mock_filter.assert_called_once_with(corporation_id=1000001)
+
+    ##
+    # DAILY HOUSEKEEPING TASKS
+    ##
 
     @patch("tnnt_housekeeping.tasks.Cache.get")
     @patch("tnnt_housekeeping.tasks.DailyTasks.corporation_cleanup")
