@@ -42,6 +42,8 @@ Section Order:
 
 <!-- Your changes go here -->
 
+## [0.0.2] - 2026-02-09
+
 ### Added
 
 - Error handling for the task queue, so that the cache is still set, even if the task fails.
@@ -58,6 +60,7 @@ Section Order:
 <!-- Links to be updated upon release -->
 
 [0.0.1]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/commits/v0.0.1 "v0.0.1"
-[in development]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.1...HEAD "In Development"
+[0.0.2]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.1...v0.0.2 "v0.0.2"
+[in development]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.2...HEAD "In Development"
 [keep a changelog]: http://keepachangelog.com/ "Keep a Changelog"
 [semantic versioning]: http://semver.org/ "Semantic Versioning"
