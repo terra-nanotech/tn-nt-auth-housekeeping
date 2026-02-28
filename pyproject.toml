@@ -38,7 +38,7 @@ dynamic = [
     "version",
 ]
 dependencies = [
-    "allianceauth>=4.10,<5",
+    "allianceauth>=4.10",
 ]
 optional-dependencies.tests-allianceauth-latest = [
     "aa-gdpr",
