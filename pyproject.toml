@@ -50,10 +50,8 @@ urls.Codecov = "https://codecov.io/gh/terra-nanotech/tn-nt-auth-housekeeping"
 urls.Documentation = "https://github.com/terra-nanotech/tn-nt-auth-housekeeping/blob/master/README.md"
 urls.GitHub = "https://github.com/terra-nanotech/tn-nt-auth-housekeeping"
 
-[tool.hatch.build]
-include = [
+[tool.hatch]
+build.include = [
     "/tnnt_housekeeping",
 ]
-
-[tool.hatch.version]
-path = "tnnt_housekeeping/__init__.py"
+version.path = "tnnt_housekeeping/__init__.py"
