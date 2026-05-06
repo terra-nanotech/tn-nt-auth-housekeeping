@@ -42,7 +42,6 @@ dependencies = [
     "allianceauth>=4.10",
 ]
 optional-dependencies.tests-allianceauth-latest = [
-    "aa-gdpr",
     "coverage",
     "django-webtest",
 ]
