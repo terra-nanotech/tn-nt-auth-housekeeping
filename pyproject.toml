@@ -51,7 +51,7 @@ urls.Documentation = "https://github.com/terra-nanotech/tn-nt-auth-housekeeping/
 urls.GitHub = "https://github.com/terra-nanotech/tn-nt-auth-housekeeping"
 
 [tool.hatch]
+version.path = "tnnt_housekeeping/__init__.py"
 build.include = [
     "/tnnt_housekeeping",
 ]
-version.path = "tnnt_housekeeping/__init__.py"
