@@ -43,6 +43,12 @@ Section Order:
 
 <!-- Your changes go here -->
 
+## [0.0.5] - 2026-07-07
+
+### Added
+
+- Support for Python 3.14
+
 ## [0.0.4] - 2026-06-07
 
 > [!IMPORTANT]
@@ -83,6 +89,7 @@ Section Order:
 [0.0.2]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.1...v0.0.2 "v0.0.2"
 [0.0.3]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.2...v0.0.3 "v0.0.3"
 [0.0.4]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.3...v0.0.4 "v0.0.4"
-[in development]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.4...HEAD "In Development"
+[0.0.5]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.4...v0.0.5 "v0.0.5"
+[in development]: https://github.com/terra-nanotech/tn-nt-auth-housekeeping/compare/v0.0.5...HEAD "In Development"
 [keep a changelog]: http://keepachangelog.com/ "Keep a Changelog"
 [semantic versioning]: http://semver.org/ "Semantic Versioning"
