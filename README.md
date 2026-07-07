@@ -10,7 +10,6 @@
 [![Automated Checks](https://github.com/terra-nanotech/tn-nt-auth-housekeeping/actions/workflows/automated-checks.yml/badge.svg)](https://github.com/terra-nanotech/tn-nt-auth-housekeeping/actions/workflows/automated-checks.yml)
 [![codecov](https://codecov.io/gh/terra-nanotech/tn-nt-auth-housekeeping/branch/master/graph/badge.svg?token=GNE88NUAKK)](https://codecov.io/gh/terra-nanotech/tn-nt-auth-housekeeping)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/terra-nanotech/tn-nt-auth-housekeeping/blob/master/CODE_OF_CONDUCT.md)
-[![Discord](https://img.shields.io/discord/399006117012832262?label=discord)](https://discord.gg/fjnHAmk)
 [![Alliance Auth Compatibility](https://img.shields.io/badge/Alliance_Auth-v5-brightgreen)](https://gitlab.com/allianceauth/allianceauth)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N8CL1BY)
