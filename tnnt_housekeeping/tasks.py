@@ -14,11 +14,10 @@ from allianceauth.eveonline.models import EveCharacter, EveCorporationInfo
 from allianceauth.services.hooks import get_extension_logger
 
 # TN-NT Auth Housekeeping
-from tnnt_housekeeping import __title__
 from tnnt_housekeeping.handler.cache import Cache
 from tnnt_housekeeping.providers import AppLogger
 
-logger = AppLogger(my_logger=get_extension_logger(name=__name__), prefix=__title__)
+logger = AppLogger(my_logger=get_extension_logger(name=__name__))
 
 CACHE_KEY_HOURLY_HOUSEKEEPING = "hourly-housekeeping-last-run"
 CACHE_KEY_DAILY_HOUSEKEEPING = "daily-housekeeping-last-run"
