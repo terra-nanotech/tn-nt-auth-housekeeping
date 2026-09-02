@@ -7,6 +7,7 @@ import logging
 from unittest.mock import Mock
 
 # TN-NT Auth Housekeeping
+from tnnt_housekeeping import __title__
 from tnnt_housekeeping.providers import AppLogger
 from tnnt_housekeeping.tests import BaseTestCase
 
@@ -26,25 +27,12 @@ class TestAppLogger(BaseTestCase):
 
         mock_logger = Mock(spec=logging.Logger)
 
-        logger = AppLogger(mock_logger, "PREFIX")
+        logger = AppLogger(mock_logger)
         logger.info("Test message")
 
-        mock_logger.log.assert_called_once_with(logging.INFO, "[PREFIX] Test message")
-
-    def test_handles_empty_prefix(self):
-        """
-        Test that the AppLogger correctly handles an empty prefix.
-
-        :return:
-        :rtype:
-        """
-
-        mock_logger = Mock(spec=logging.Logger)
-
-        logger = AppLogger(mock_logger, "")
-        logger.info("Test message")
-
-        mock_logger.log.assert_called_once_with(logging.INFO, "[] Test message")
+        mock_logger.log.assert_called_once_with(
+            logging.INFO, f"[{__title__}] Test message"
+        )
 
     def test_handles_empty_message(self):
         """
@@ -55,10 +43,10 @@ class TestAppLogger(BaseTestCase):
         """
         mock_logger = Mock(spec=logging.Logger)
 
-        logger = AppLogger(mock_logger, "PREFIX")
+        logger = AppLogger(mock_logger)
         logger.info("")
 
-        mock_logger.log.assert_called_once_with(logging.INFO, "[PREFIX] ")
+        mock_logger.log.assert_called_once_with(logging.INFO, f"[{__title__}] ")
 
     def test_handles_kwargs_in_log_message(self):
         """
@@ -70,9 +58,9 @@ class TestAppLogger(BaseTestCase):
 
         mock_logger = Mock(spec=logging.Logger)
 
-        logger = AppLogger(mock_logger, "PREFIX")
+        logger = AppLogger(mock_logger)
         logger.info("Test message", extra={"key": "value"})
 
         mock_logger.log.assert_called_once_with(
-            logging.INFO, "[PREFIX] Test message", extra={"key": "value"}
+            logging.INFO, f"[{__title__}] Test message", extra={"key": "value"}
         )

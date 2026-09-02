@@ -14,11 +14,9 @@ from django.utils.timezone import now
 from allianceauth.services.hooks import get_extension_logger
 
 # TN-NT Auth Housekeeping
-# AA ESI Status
-from tnnt_housekeeping import __title__
 from tnnt_housekeeping.providers import AppLogger
 
-logger = AppLogger(my_logger=get_extension_logger(__name__), prefix=__title__)
+logger = AppLogger(my_logger=get_extension_logger(__name__))
 
 
 class Cache:
