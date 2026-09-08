@@ -1,5 +1,5 @@
 """
-Housekeeping tasks for TN-NT-Auth.
+Housekeeping tasks for TN-NT Auth Housekeeping.
 """
 
 # Third Party

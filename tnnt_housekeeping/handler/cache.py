@@ -1,5 +1,5 @@
 """
-Cache handler for AA ESI Status.
+Cache handler for TN-NT Auth Housekeeping.
 """
 
 # Standard Library
@@ -16,12 +16,12 @@ from allianceauth.services.hooks import get_extension_logger
 # TN-NT Auth Housekeeping
 from tnnt_housekeeping.providers import AppLogger
 
-logger = AppLogger(my_logger=get_extension_logger(__name__))
+logger = AppLogger(my_logger=get_extension_logger(name=__name__))
 
 
 class Cache:
     """
-    Handling the redis cache for TN-NT Housekeeping.
+    Handling the redis cache for TN-NT Auth Housekeeping.
 
     - Cache keys are generated based on a base key and a subkey.
     - Cache values are set with a timeout that expires at 11:30 AM the next day.
