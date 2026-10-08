@@ -260,9 +260,10 @@ class TestDailyHousekeepingTasks(BaseTestCase):
 
             mock_values_list.assert_called_once_with("corporation_id", flat=True)
             mock_values_list.return_value.distinct.assert_called_once()
-            mock_exclude.assert_called_once_with(
-                corporation_id__in=mock_values_list.return_value.distinct.return_value
-            )
+            # The implementation always includes the Doomheim corporation (1000001)
+            # in the exclusion list, even when there are no character corporation
+            # IDs. Assert that behavior here.
+            mock_exclude.assert_called_once_with(corporation_id__in=[1000001])
 
     def test_empty_corporation_cleanup_handles_deletion_error(self):
         """
