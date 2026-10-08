@@ -47,8 +47,6 @@ def housekeeping() -> None:
 #     :rtype:
 #     """
 #
-#     logger.info("Starting hourly housekeeping tasks.")
-#
 #     cache_subkey = CACHE_KEY_HOURLY_HOUSEKEEPING
 #     cached = Cache(subkey=cache_subkey).get()
 #
@@ -58,6 +56,8 @@ def housekeeping() -> None:
 #         )
 #
 #         return
+#
+#     logger.info("Starting hourly housekeeping tasks.")
 #
 #     # Trigger all hourly hooks for TN-NT Housekeeping
 #
@@ -74,8 +74,6 @@ def daily_housekeeping() -> None:
     :rtype:
     """
 
-    logger.info("Starting daily housekeeping tasks.")
-
     cache_subkey = CACHE_KEY_DAILY_HOUSEKEEPING
     cached = Cache(subkey=cache_subkey).get()
 
@@ -86,9 +84,11 @@ def daily_housekeeping() -> None:
 
         return
 
+    logger.info("Starting daily housekeeping tasks.")
+
     # Trigger all daily hooks for TN-NT Housekeeping
-    DailyTasks.corporation_cleanup()  # Perform daily corporation cleanup tasks
-    DailyTasks.character_cleanup()  # Perform daily character cleanup tasks
+    DailyTasks.remove_closed_corporations()  # Remove closed corporations from the database
+    DailyTasks.remove_biomassed_characters()  # Remove biomassed characters from the database
 
     # Update the cache to indicate that daily housekeeping tasks have been run
     Cache(subkey=cache_subkey).set_daily(value=timezone.now())
@@ -100,9 +100,10 @@ class DailyTasks:
     """
 
     @staticmethod
-    def corporation_cleanup() -> None:
+    def remove_closed_corporations() -> None:
         """
-        Perform daily corporation cleanup tasks.
+        Remove closed corporations from the database.
+        Closed corporations are identified by having a CEO ID of 1.
 
         :return:
         :rtype:
@@ -122,9 +123,10 @@ class DailyTasks:
             logger.error(f"Error deleting closed corporations: {e}")
 
     @staticmethod
-    def character_cleanup() -> None:
+    def remove_biomassed_characters() -> None:
         """
-        Perform daily character cleanup tasks.
+        Remove characters that are in the Doomheim corporation (corporation ID 1000001).
+        These characters are considered "biomassed" and should be removed from the database.
 
         :return:
         :rtype:
