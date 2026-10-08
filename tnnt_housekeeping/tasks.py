@@ -187,6 +187,10 @@ class DailyTasks:
         character_corporation_ids = EveCharacter.objects.values_list(
             "corporation_id", flat=True
         ).distinct()
+
+        # Add Doomheim corporation (ID 1000001) to the list of corporation IDs to exclude from deletion
+        character_corporation_ids = list(character_corporation_ids) + [1000001]
+
         delete_corporations = EveCorporationInfo.objects.exclude(
             corporation_id__in=character_corporation_ids
         )

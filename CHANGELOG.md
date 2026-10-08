@@ -43,14 +43,15 @@ Section Order:
 
 <!-- Your changes go here -->
 
-## [0.0.5] - 2026-07-07
-
 ### Added
 
 - Task to cleanup empty eveonline data from the database
   - Remove any character that does not belong to a user
   - Remove any corporation that does not have any members
   - Remove any alliance that does not have any corporations
+
+## [0.0.5] - 2026-07-07
+
 - Support for Python 3.14
 
 ## [0.0.4] - 2026-06-07
